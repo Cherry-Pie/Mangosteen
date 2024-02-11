@@ -1,0 +1,58 @@
+.navbar-vertical.navbar-expand-xs .navbar-collapse {
+    height: auto;
+}
+.bg-gradient-running {
+    color: #67b108;
+    background-color: #cdf59b;
+    border-radius: 0.25rem;
+}
+.bg-gradient-created {
+    color: #fbc400;
+    background-color: #fef5d3;
+    border-radius: 0.25rem;
+}
+.bg-gradient-restarting {
+    color: #08a1c4;
+    background-color: #abe9f7;
+    border-radius: 0.25rem;
+}
+.bg-gradient-exited {
+    color: #bd0000;
+    background-color: #fc9797;
+    border-radius: 0.25rem;
+}
+.bg-gradient-paused {
+    color: #5974a2;
+    background-color: #e4e8ed;
+    border-radius: 0.25rem;
+}
+.bg-gradient-dead {
+    color: #1e2e4a;
+    background-color: #8097bf;
+    border-radius: 0.25rem;
+}
+
+.alert-dismissible .btn-close {
+    padding: 1rem;
+}
+div.input-group>span.form-control-sm {
+    position: relative !important;
+    min-height: unset;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+}
+.input-group input {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+#navigation > ul {
+    margin-right: 0 !important;
+}
+.logout-btn {
+    position: fixed;
+    transform: translateX(-50%);
+    bottom: 1.5rem;
+}
+.logout-btn:hover {
+    transform: translateX(-50%) scale(1.02) !important;
+}

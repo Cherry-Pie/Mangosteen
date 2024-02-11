@@ -1,0 +1,16 @@
+mango/app/before.sh
+mango/app/after.sh
+mango/app/run.before.sh
+mango/app/run.after.sh
+mango/app/stop.before.sh
+mango/app/stop.after.sh
+mango/app/protected_names.json
+mango/.env
+mango/storage/logs/*
+mango/storage/app/public/*
+mango/storage/framework/cache/data/*
+mango/storage/framework/cache/sessions/*
+mango/storage/framework/cache/views/*
+mango/.config
+mango/.bash_history
+mango/.editorconfig

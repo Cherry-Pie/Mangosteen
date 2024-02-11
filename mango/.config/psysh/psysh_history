@@ -1,0 +1,15 @@
+_HiStOrY_V2_
+exec('docker\040run\040--rm\040traefik/whamyou')
+exec('docker\040run\040--rm\040traefik/whamyou',\040$out,\040$code)
+$out
+$code
+exec('docker\040run\040--rm\040traefik/whamyou\040--network\040mangosteen',\040$out,\040$code)
+exec('docker\040run\040--rm\040traefik/whoami\040--network\040mangosteen',\040$out,\040$code)
+$code
+$out
+exec('docker\040run\040--rm\040--network\040mangosteen\040-d\040traefik/whoami',\040$out,\040$code)
+$out
+$code
+$collection\040=\040collect([\012\040\040\040\040['name'\040=>\040'iPhone\0406',\040'brand'\040=>\040'Apple',\040'type'\040=>\040'phone'],\012\040\040\040\040['name'\040=>\040'iPhone\0405',\040'brand'\040=>\040'Apple',\040'type'\040=>\040'phone'],\012\040\040\040\040['name'\040=>\040'Apple\040Watch',\040'brand'\040=>\040'Apple',\040'type'\040=>\040'watch'],\012\040\040\040\040['name'\040=>\040'Galaxy\040S6',\040'brand'\040=>\040'Samsung',\040'type'\040=>\040'phone'],\012\040\040\040\040['name'\040=>\040'Galaxy\040Gear',\040'brand'\040=>\040'Samsung',\040'type'\040=>\040'watch'],\012]);
+collection->unique('brand')
+$collection->unique('brand')

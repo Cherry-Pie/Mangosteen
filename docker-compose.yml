@@ -1,0 +1,93 @@
+version: "3.7"
+
+services:
+  reverse-proxy:
+    image: "nginxproxy/nginx-proxy:1.4"
+    container_name: "mangosteen-reverse-proxy"
+    volumes:
+      - "html:/usr/share/nginx/html"
+      - "dhparam:/etc/nginx/dhparam"
+      - "vhost:/etc/nginx/vhost.d"
+      - "certs:/etc/nginx/certs"
+      - "${DOCKER_SOCK}:/tmp/docker.sock:ro"
+      - "/dev/null:/etc/s6-overlay/s6-rc.d/prepare/50-ipv6.sh"
+    restart: "always"
+    deploy:
+      labels:
+        com.centurylinklabs.watchtower.enable: false
+    networks:
+      - "mangosteen"
+    ports:
+      - "80:80"
+      - "443:443"
+
+  letsencrypt:
+    image: "jrcs/letsencrypt-nginx-proxy-companion:2.2"
+    container_name: "mangosteen-letsencrypt-helper"
+    volumes:
+      - "html:/usr/share/nginx/html"
+      - "dhparam:/etc/nginx/dhparam"
+      - "vhost:/etc/nginx/vhost.d"
+      - "certs:/etc/nginx/certs"
+      - "${DOCKER_SOCK}:/var/run/docker.sock:ro"
+      - "/dev/null:/etc/s6-overlay/s6-rc.d/prepare/50-ipv6.sh"
+    environment:
+      NGINX_PROXY_CONTAINER: "mangosteen-reverse-proxy"
+      DEFAULT_EMAIL: "user@domain.com"
+    restart: "always"
+    depends_on:
+      - "reverse-proxy"
+    deploy:
+      labels:
+        com.centurylinklabs.watchtower.enable: false
+    networks:
+      - "mangosteen"
+
+  watchtower:
+    image: "containrrr/watchtower"
+    container_name: "mangosteen-watchtower"
+    restart: unless-stopped
+    environment:
+      - WATCHTOWER_SCHEDULE=0 * * * * *
+      - WATCHTOWER_LABEL_ENABLE=true
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_WARN_ON_HEAD_FAILURE=never
+    volumes:
+      - "${DOCKER_SOCK}:/var/run/docker.sock:ro"
+    networks:
+      - "mangosteen"
+
+  app:
+    container_name: "mangosteen-app"
+    build:
+      context: .
+      dockerfile: local.Dockerfile
+      args:
+        DOCKER_GID: ${DOCKER_GID}
+    environment:
+      - SSL_MODE=off
+      - VIRTUAL_HOST=${MANGOSTEEN_DASHBOARD_SUBDOMAIN}.${MANGOSTEEN_DOMAIN}
+      - VIRTUAL_PORT=80
+      - PUID=${WEBUSER_UID}
+      - PGID=${WEBUSER_GID}
+      - MANGOSTEEN_DOMAIN=${MANGOSTEEN_DOMAIN}
+    volumes:
+      - "./mango:/var/www/html"
+      - "./before.sh:/var/www/html/app/before.sh"
+      - "./after.sh:/var/www/html/app/after.sh"
+      - "${DOCKER_SOCK}:/var/run/docker.sock:ro"
+    deploy:
+      labels:
+        com.centurylinklabs.watchtower.enable: false
+    networks:
+      - "mangosteen"
+
+volumes:
+  certs:
+  html:
+  vhost:
+  dhparam:
+
+networks:
+  mangosteen:
+    external: true

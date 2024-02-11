@@ -1,0 +1,9 @@
+.env
+/test
+/before.sh
+/after.sh
+/mango/app/run.before.sh
+/mango/app/run.after.sh
+/mango/app/stop.before.sh
+/mango/app/stop.after.sh
+/.idea
